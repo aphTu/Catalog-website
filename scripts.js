@@ -35,6 +35,7 @@ const divMoveFourth = document.getElementById("move_4");
 const BULBASAUR_PIC_URL = "../Catalog-website/Picture/bulbasaur.png";
 const CHARMANDER_PIC_URL = "../Catalog-website/Picture/charmander.png";
 const SQUIRTLE_PIC_URL = "../Catalog-website/Picture/squirtle.png";
+const MUDKIP_PIC_URL = "../Catalog-website/Picture/mudkip.png";
 
 // This is an list of pokemon objects
 
@@ -57,7 +58,7 @@ const pokemon =
                 name: "tackle",
                 base_dmg: 1,
                 type: "normal",
-                amt: 4
+                amt: 5
             },
             {
                 name: "razor leaf",
@@ -91,13 +92,13 @@ const pokemon =
                 name: "tackle",
                 base_dmg: 2,
                 type: "normal",
-                amt: 4
+                amt: 5
             },
             {
                 name: "scratch",
                 base_dmg: 2,
                 type: "normal",
-                amt: 4,
+                amt: 5,
             },
             {
                 name: "fire fang",
@@ -125,7 +126,7 @@ const pokemon =
                 name: "tackle",
                 base_dmg: 1,
                 type: "normal",
-                amt: 4
+                amt: 5
             },
             {
                 name: "bubble",
@@ -141,19 +142,56 @@ const pokemon =
                 amt: 2
             }
         ]
+    },
+
+    mudkip: {
+        id: 335,
+        name: "mudkip",
+        type: "water",
+        speed: 16,
+        hp: 20,
+        moves: [
+            {
+                name: "bubble beam",
+                base_dmg: 2,
+                type: "water",
+                amt: 2
+            },
+            {
+                name: "tackle",
+                base_dmg: 1,
+                type: "normal",
+                amt: 5
+            },
+            {
+                name: "hydro pump",
+                base_dmg: 3,
+                type: "water",
+                amt: 1
+            },
+    
+            {
+                name: "water pulse",
+                base_dmg: 2,
+                type: "water",
+                amt: 2
+            }
+        ]
     }
 }
 
 
 //function assign a random pokemon chosen from the pokemon object
 function randomize_player_pokemon(){
-    const generated_value = Math.floor(Math.random()*9)
-    if(generated_value <= 3){
+    const generated_value = Math.floor(Math.random()*20+1)
+    if(generated_value <= 5){
         return pokemon.bulbasaur;
-    } else if(generated_value >3 && generated_value <= 6){
+    } else if(generated_value >5 && generated_value <= 10){
         return pokemon.charmander;
-    } else{
+    } else if (generated_value > 10 && generated_value <= 15){
         return pokemon.squirtle;
+    } else {
+        return pokemon.mudkip;
     }
 }
 
@@ -161,25 +199,40 @@ function npc(player){
     let give_pokemon;
         if(player.name === "bulbasaur"){
             const generated_value = Math.random();
-            if(generated_value >= 0.5){
+            if(generated_value <= 0.4){
+                return pokemon.charmander;
+            } else if(generated_value > 0.4 && generated_value <= 0.7) {
+                return pokemon.squirtle;
+            } else {
+                return pokemon.mudkip;
+            }
+        } else if(player.name === "charmander") {
+            const generated_value = Math.random();
+            if(generated_value <= 0.4){
+                return pokemon.squirtle;
+            } else if (generated_value > 0.4 && generated_value <= 0.7){
+                return pokemon.bulbasaur;
+            } else {
+                return pokemon.mudkip;
+            }
+        } else if(player.name === "squirtle") {
+            const generated_value = Math.random();
+            if(generated_value <= 0.4){
+                return pokemon.bulbasaur;
+            } else if (generated_value > 0.4 && generated_value <= 0.7){
+                return pokemon.charmander;
+            } else {
+                return pokemon.mudkip;
+            }
+        } else if(player.name === "mudkip"){
+            const generated_value = Math.random();
+            if(generated_value <= 0.4){
+                return pokemon.bulbasaur;
+            } else if (generated_value >0.4 && generated_value <= 0.7){
                 return pokemon.charmander;
             } else {
                 return pokemon.squirtle;
             }
-        } else if(player.name === "charmander") {
-            const generated_value = Math.random();
-            if(generated_value >= 0.5){
-                return pokemon.squirtle;
-            } else {
-                return pokemon.bulbasaur;
-            } 
-        } else {
-            const generated_value = Math.random();
-            if(generated_value >=0.5){
-                return pokemon.bulbasaur;
-            } else {
-                return pokemon.charmander;
-            } 
         }
 }
 
@@ -233,8 +286,10 @@ function set_up_player_pokemon(player){
         chosen_poke_image = BULBASAUR_PIC_URL;
     } else if(player.name === "charmander"){
         chosen_poke_image = CHARMANDER_PIC_URL;
-    } else {
+    } else if(player.name === "squirtle"){
         chosen_poke_image = SQUIRTLE_PIC_URL;
+    } else {
+        chosen_poke_image = MUDKIP_PIC_URL;
     }
 
     img.src = chosen_poke_image;
@@ -253,8 +308,10 @@ function set_up_npc(npc){
         chosen_poke_image = BULBASAUR_PIC_URL;
     } else if(npc.name === "charmander"){
         chosen_poke_image = CHARMANDER_PIC_URL;
-    } else {
+    } else if(npc.name === "squirtle") {
         chosen_poke_image = SQUIRTLE_PIC_URL;
+    } else {
+        chosen_poke_image = MUDKIP_PIC_URL;
     }
 
     img.src = chosen_poke_image;
@@ -267,6 +324,10 @@ set_up_player_pokemon(player_main);
 set_up_npc(npc_main);
 console.log(player_main);
 console.log(npc_main);
+let battle_message= {
+
+};
+
 
 function type_advantage(attacker, receiver, number){
     const receiver_type = receiver.type;
@@ -322,59 +383,72 @@ function randomize_npc_move(){
 
 function battle_calculation(player_pokemon, npc_pokemon,number){
     const npc_move = randomize_npc_move();
+
     if(player_pokemon.speed > npc_pokemon.speed){
         const user_effective =  type_advantage(player_pokemon,npc_pokemon, number);
         if(user_effective === 2){
             npc_main.hp= npc_pokemon.hp - (player_pokemon.moves[number].base_dmg +1);
             console.log(`Super Effective: Enemy Hp: ${npc_main.hp}`);
 
+            battle_message[0] = "Super Effective hit to Enemy";
+
         } else if (user_effective ===0){
             npc_main.hp= npc_pokemon.hp - (player_pokemon.moves[number].base_dmg -1);
             console.log(`Not Effective: Enemy Hp: ${npc_main.hp}`);
+            battle_message[0] = "Not Effective hit to Enemy";
 
         } else { 
             npc_main.hp -= player_pokemon.moves[number].base_dmg;
             console.log(`Neutral: Enemy Hp: ${npc_main.hp}`);
-
+            battle_message[0] = "Neutral hit to Enemy";
         }
 
         const npc_effective = type_advantage(npc_pokemon,player_pokemon,npc_move);
         if(npc_effective === 2){
             player_main.hp = player_pokemon.hp - (npc_pokemon.moves[npc_move].base_dmg + 1);
             console.log(`Super Effective: Player Hp: ${player_main.hp}`);
+            
+            battle_message[1] = "Super Effective hit to Player";
         } else if(npc_effective === 0){
             player_main.hp = player_pokemon.hp - (npc_pokemon.moves[npc_move].base_dmg - 1);
             console.log(`Not Effective: Player Hp: ${player_main.hp}`);
+            battle_message[1] = "Not Effective hit to Player";
         } else {
             player_main.hp = player_pokemon.hp - npc_pokemon.moves[npc_move].base_dmg;
             console.log(`Neutral: Player Hp: ${player_main.hp}`);
+            battle_message[1] = "Neutral hit to Player";
         }
     } else {
         const npc_effective = type_advantage(npc_pokemon,player_pokemon,npc_move);
         if(npc_effective === 2){
             player_main.hp = player_pokemon.hp - (npc_pokemon.moves[npc_move].base_dmg + 1);
             console.log(`Super Effective: Player Hp: ${player_main.hp}`);
+            battle_message[0] = "Super Effective hit to Player";
         } else if(npc_effective === 0){
             player_main.hp = player_pokemon.hp - (npc_pokemon.moves[npc_move].base_dmg - 1);
             console.log(`Not Effective: Player Hp: ${player_main.hp}`);
+            battle_message[0] = "Not Effective hit to Player";
         } else {
             player_main.hp = player_pokemon.hp - npc_pokemon.moves[npc_move].base_dmg;
             console.log(`Neutral: Player Hp: ${player_main.hp}`);
+            battle_message[0] = "Neutral hit to Player";
         }
 
         const user_effective =  type_advantage(player_pokemon,npc_pokemon, number);
         if(user_effective === 2){
             npc_main.hp= npc_pokemon.hp - (player_pokemon.moves[number].base_dmg + 1);
             console.log(`Super Effective: Enemy Hp: ${npc_main.hp}`);
+            battle_message[1] = "Super Effective hit to Enemy";
 
         } else if (user_effective ===0){
             npc_main.hp= npc_pokemon.hp - (player_pokemon.moves[number].base_dmg -1);
             console.log(`Not Effective: Enemy Hp: ${npc_main.hp}`);
+            battle_message[1] = "Not Effective hit to Enemy";
 
         } else { 
             npc_main.hp -= player_pokemon.moves[number].base_dmg;
             console.log(`Neutral: Enemy Hp: ${npc_main.hp}`);
-
+            battle_message[1] = "Neutral hit to Enemy";
         }    
     }
 
@@ -384,6 +458,7 @@ function battle_calculation(player_pokemon, npc_pokemon,number){
         player_main.hp = 0;
     }
 }
+
 
 function buttonMove(number){
     console.log(`Move ${number} has been click`);
@@ -397,31 +472,29 @@ function updateScreen(player,npc,number){
     set_up_npc(npc);
     set_up_move(player);
     
+    const effective_msg = document.getElementById("battle_message");
+    console.log(effective_msg);
+    effective_msg.style.display = "block";
+    effective_msg.innerText = `${battle_message[0]} \n ${battle_message[1]}`;
+
     if(player.moves[number].amt <= 0){
         div_moves[number].disabled = true;
     }
 
     if(npc.hp <= 0){
-        alert("Congratulations! You Won!");
         document.getElementById("npc_pokemon").style.display = "none";
-        document.getElementsByClassName("title").innerText = "You Won";
+        effective_msg.innerText = "Congratulations! You won!"
+        disabled_move();
+        
     } else if (player.hp <=0) {
-        alert("Unfortunately. You lost, reload page to try again");
         document.getElementById("player_pokemon").style.display = "none";
-        document.getElementsByClassName("title").innerText = "You Lost";
+        effective_msg.innerText = "Unfortunately. You lost, reload page to try again";
+        disabled_move();
     }
 }
-// console.log(pokemon.bulbasaur);
-// console.log(type_advantage(player_poke.moves[0],npc_poke));
 
-
-
-function quoteAlert() {
-    console.log("Button Clicked!")
-    alert("I guess I can kiss heaven goodbye, because it got to be a sin to look this good!");
-}
-
-function removeLastCard() {
-    titles.pop(); // Remove last item in titles array
-    showCards(); // Call showCards again to refresh
+function disabled_move(){
+    for(let i =0; i<4;i++){
+        div_moves[i].disabled = true;
+    }
 }
