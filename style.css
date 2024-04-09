@@ -2,18 +2,21 @@ html,
 body {
     margin: 0;
     padding: 0;
+    background-color: #161B40;
+    height: 100vh;
 }
 
+
 .main-header {
-    background-color: rgba(0, 0, 0, .3);
-    padding-bottom: 10px;
+    padding-bottom: 5px;
+    background-color: #43BEE5;
 }
 
 .title {
     text-align: center;
     margin: 0;
-    font-size: 8em;
-    font-family: "Helvetica";
+    font-size: 8;
+    font-family: "Comic Sans";
     font-weight: normal;
     color: white;
 }
@@ -32,30 +35,106 @@ body {
     margin: 5px;
 }
 
-.card-content {
+.pokemon-content {
     padding: 20px;
-    font-family: "Verdana";
-    color: #777;
-}
-
-.card-content h2 {
-    margin-top: 0;
-    font-size: 20px;
-}
-
-.card img {
+    font-family: "comic sans";
+    color: white;
+    height: 70%;
     width: 100%;
-    height: auto;
+    display: flex;
+    justify-content: space-around; 
 }
 
-.footer {
-    display: flex;
+
+.pokemon-content p{
+    font-size: 30px;
+}
+
+#pokemon-sprite{
+    background-color: #161B40;
+    /* width: 120px;
+    height: 140px; */
+}
+
+#npc_pokemon_sprite{
+    background-color: #161B40;
+    transform: scaleX(-1);
+}
+
+.pokemon-content h2 {
+    margin-top: 0;
+    font-size: 5vh;
+    text-shadow: 
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black;
+}
+
+.battle-menu{
     justify-content: center;
     background-color: rgba(0, 0, 0, .3);
     padding: 10px;
 }
 
-button {
+.background_battle{
+    display: grid;
+    padding: 2rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: white;
+    width: auto; 
+}
+
+.background_battle button {
+    border: 3px solid black;
+    margin: 2px 2px;
+    position: relative;
+}
+
+.background_battle button:hover {
+    cursor:pointer;
+
+}
+
+.background_battle button .amt {
+    position: absolute;
+    top: -14%;
+    left: 0;
+    background-color: black;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 50px;
+}
+
+.move_name{
+    color: white;
+    font-family: "Comic Sans";
+
+}
+
+.dmg{
+    font-size: 20px;
+    color: white;
+    font-family: "Comic Sans";
+}
+
+#move_1{
+    background-color: white; /*default value*/
+}
+#move_2{
+    background-color: white; /*default value*/
+}
+#move_3{
+    background-color: white; /*default value*/
+}
+#move_4{
+    background-color: white; /*default value*/
+}
+
+
+
+/* button {
     text-align: center;
     background-color: #666;
     border: none;
@@ -67,4 +146,10 @@ button {
     font-size: 22px;
     cursor: pointer;
     margin: 5px;
+}    */
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }

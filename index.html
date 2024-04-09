@@ -2,38 +2,61 @@
 <html>
 
 <head>
-    <title>LA TV Shows | Home</title>
-    <meta name="description" content="A Catalog of Shows Set in Los Angeles">
+    <title>Pokemon Display</title>
+    <meta name="description" content="A Pokemon Display">
     <link rel="stylesheet" href="style.css" />
-    <script type="text/javascript" src="scripts.js"></script>
+    <script type="text/javascript" src="scripts.js" defer></script>
 </head>
 
 <body>
-    <header class="main-header">
-        <h1 class="title">LA TV Shows</h1>
-    </header>
-    <div id="card-container">
-        
-    </div>
-    <div class="card" style="display: none;">
-        <div class="card-content">
-            <h2>TV Show Title</h2>
-            <img src="" alt="TV Show Poster">
-            <ul>
-                <li>Bullet Point 1</li>
-                <li>Bullet Point 2</li>
-                <li>Bullet Point 3</li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer">
-        <button onclick="quoteAlert();">
-            Get A Quote!
-        </button>
-        <button onclick="removeLastCard();">
-            Remove A Card!
-        </button>
-    </div>
+    <main> 
+        <header class="main-header">
+            <h1 class="title">Pokemon Display</h1>
+        </header>
+        <section class="pokemon_section" style="display: contents">
+            <div class="pokemon-content">
+                <div id="player_pokemon" >
+                    <h2>Player Pokemon Name</h2>
+                    <img id="pokemon-sprite" src="" alt="Pokemon Sprite">
+                    <ul>
+                        <p id = "hp_player">HP: </p>
+                    </ul>
+                </div>
+
+                <div id="npc_pokemon">
+                    <h2>NPC Pokemon Name</h2>
+                    <img id="npc_pokemon_sprite" src="./Picture/charmander.png" alt="Pokemon Sprite">
+                    <ul>
+                        <p id = "npc_hp">HP: </p>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class ="battle-menu">
+            <div class = "background_battle">
+                <button id = "move_1" onclick="buttonMove(0);">
+                    <h1 class="move_name">Fireblast</h1>
+                    <p class = "dmg">DMG : 40</p>
+                    <p class = "amt" >AMT: 5/5</p>
+                </button>
+ 
+                <button id = "move_2" onclick="buttonMove(1)">
+                    <h1 class="move_name">Fireblast</h1> 
+                    <p class = "dmg">DMG : 40</p>
+                    <p class = "amt" >AMT: 5/5</p>
+                </button>
+                <button id = "move_3" onclick="buttonMove(2)">
+                    <h1 class="move_name">Fireblast</h1>
+                    <p class = "dmg">DMG : 40</p>
+                    <p class = "amt" >AMT: 5/5</p>
+                </button>
+                <button id = "move_4" onclick = "buttonMove(3)"> 
+                    <h1 class="move_name">Fireblast</h1>
+                    <p class = "dmg">DMG : 40</p>
+                    <p class = "amt" >AMT: 5/5</p>
+                </button>
+        </section>
+    </main>
 </body>
 
 </html>
