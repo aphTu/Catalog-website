@@ -195,6 +195,7 @@ function randomize_player_pokemon(){
     }
 }
 
+//function to assign the other 3 pokemon that the player did not get to npc
 function npc(player){
     let give_pokemon;
         if(player.name === "bulbasaur"){
@@ -239,7 +240,7 @@ function npc(player){
 //array consist of the divs of move
 const div_moves= [divMoveOne, divMoveTwo, divMoveThree, divMoveFourth];
 
-//setting up the move
+//setting up the move for player
 function set_up_move(player){
     //for loops to input all the data from pokemon object into the divs
     for(let i = 0; i<4;i++){
@@ -272,15 +273,22 @@ function set_up_move(player){
     }
 }
 
+//setting up the sprite, hp, and name of the pokemon
 function set_up_player_pokemon(player){
+    //getting the img src
     const img = document.getElementById("pokemon-sprite");
     const pokemon_div = document.getElementById("player_pokemon");
-    console.log(document.getElementById("hp_player").innerText);
+    // console.log(document.getElementById("hp_player").innerText);
+    
+
+    //hp of the pokemon
     document.getElementById("hp_player").innerText = `HP: ${player.hp}`;   
 
+
+    //name of the pokemon
     pokemon_div.getElementsByTagName("h2")[0].innerText = player.name;
 
-
+    //setting the img source to a sprite of the pokemon
     let chosen_poke_image;
     if(player.name === "bulbasaur"){
         chosen_poke_image = BULBASAUR_PIC_URL;
@@ -295,14 +303,21 @@ function set_up_player_pokemon(player){
     img.src = chosen_poke_image;
 }
 
+
+//set up the npc pokemon sprite, hp, and name
 function set_up_npc(npc){
+
+    //getting the image source
     const img = document.getElementById("npc_pokemon_sprite");
     const pokemon_div = document.getElementById("npc_pokemon");
+
+    //setting up the pokemon hp and name
     pokemon_div.getElementsByTagName("p")[0].innerText = `HP: ${npc.hp}`;
 
     pokemon_div.getElementsByTagName("h2")[0].innerText = npc.name;
 
 
+    //setting the img src to a sprite
     let chosen_poke_image;
     if(npc.name === "bulbasaur"){
         chosen_poke_image = BULBASAUR_PIC_URL;
@@ -317,6 +332,8 @@ function set_up_npc(npc){
     img.src = chosen_poke_image;
 }
 
+//player_main is the player pokemon
+//npc main is the npc pokemon
 let player_main = randomize_player_pokemon();
 let npc_main = npc(player_main);
 set_up_move(player_main);
@@ -324,12 +341,13 @@ set_up_player_pokemon(player_main);
 set_up_npc(npc_main);
 console.log(player_main);
 console.log(npc_main);
-let battle_message= {
 
-};
+//battle message tell the player if their move was super or not effective to enemy
+let battle_message= {};
 
-
+//calculate the type advantage
 function type_advantage(attacker, receiver, number){
+
     const receiver_type = receiver.type;
     const attacker_move_type = attacker.moves[number].type;
     
@@ -367,6 +385,7 @@ function type_advantage(attacker, receiver, number){
     }
 }
 
+//randomizing the npc_move
 function randomize_npc_move(){
     const generated_value = Math.floor(Math.random()* 20 +1);
 
@@ -381,9 +400,15 @@ function randomize_npc_move(){
     }
 }
 
+//calculate the dmg given to player and enemy
+//depending on who speed is higher, that person attack go first
 function battle_calculation(player_pokemon, npc_pokemon,number){
     const npc_move = randomize_npc_move();
 
+    //user_effective will tell if the move is super effective against the other pokemon
+    //if it is super effect, make the move dmg stronger by 1
+    //if it not effect, make the move dmg weaker by 1
+    //if it neutral, it does the base_dmg of the move
     if(player_pokemon.speed > npc_pokemon.speed){
         const user_effective =  type_advantage(player_pokemon,npc_pokemon, number);
         if(user_effective === 2){
@@ -452,6 +477,8 @@ function battle_calculation(player_pokemon, npc_pokemon,number){
         }    
     }
 
+
+    //prevent the player and npc hp from going into the negative
     if(npc_main.hp <=0){
         npc_main.hp = 0;
     } else if (player_main.hp <= 0){
@@ -460,27 +487,39 @@ function battle_calculation(player_pokemon, npc_pokemon,number){
 }
 
 
+//when button is click, it does the respective move for that button
 function buttonMove(number){
+
     console.log(`Move ${number} has been click`);
+    //call battle caculation to calculate the dmg
     battle_calculation(player_main, npc_main, number);
+    //reduce the amt of time the user can use the move
+    //if it become 0, the button for that move is no longer clickable
     player_main.moves[number].amt--;
+    //calling updateScreen
     updateScreen(player_main,npc_main,number);
 }
 
+//update the hp and move amt, and put up the battle message
 function updateScreen(player,npc,number){
+    //calling these functions to update hp and move amt
     set_up_player_pokemon(player);
     set_up_npc(npc);
     set_up_move(player);
     
+    //updating battle message
     const effective_msg = document.getElementById("battle_message");
     console.log(effective_msg);
     effective_msg.style.display = "block";
     effective_msg.innerText = `${battle_message[0]} \n ${battle_message[1]}`;
 
+    //disabling the move
     if(player.moves[number].amt <= 0){
         div_moves[number].disabled = true;
     }
 
+
+    //wining condition
     if(npc.hp <= 0){
         document.getElementById("npc_pokemon").style.display = "none";
         effective_msg.innerText = "Congratulations! You won!"
@@ -493,6 +532,7 @@ function updateScreen(player,npc,number){
     }
 }
 
+//disabled the move after the game is over
 function disabled_move(){
     for(let i =0; i<4;i++){
         div_moves[i].disabled = true;
