@@ -40,7 +40,7 @@ const SQUIRTLE_PIC_URL = "../Catalog-website/Picture/squirtle.png";
 const MUDKIP_PIC_URL = "../Catalog-website/Picture/mudkip.png";
 
 // This is an list of pokemon objects
-
+//I created it myself
 const pokemon = 
 {
     bulbasaur: {
@@ -60,7 +60,7 @@ const pokemon =
                 name: "tackle",
                 base_dmg: 1,
                 type: "normal",
-                amt: 5
+                amt: 8
             },
             {
                 name: "razor leaf",
@@ -94,13 +94,13 @@ const pokemon =
                 name: "tackle",
                 base_dmg: 2,
                 type: "normal",
-                amt: 5
+                amt: 8
             },
             {
                 name: "scratch",
                 base_dmg: 2,
                 type: "normal",
-                amt: 5,
+                amt: 8,
             },
             {
                 name: "fire fang",
@@ -128,7 +128,7 @@ const pokemon =
                 name: "tackle",
                 base_dmg: 1,
                 type: "normal",
-                amt: 5
+                amt: 8
             },
             {
                 name: "bubble",
@@ -163,7 +163,7 @@ const pokemon =
                 name: "tackle",
                 base_dmg: 1,
                 type: "normal",
-                amt: 5
+                amt: 8
             },
             {
                 name: "hydro pump",
