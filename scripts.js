@@ -32,6 +32,8 @@ const divMoveFourth = document.getElementById("move_4");
 
 
 //Sprite for the Pokemon
+//charmander and squirtle sprite was from pokemon api
+//mudkip and bulbasaur is from the internet
 const BULBASAUR_PIC_URL = "../Catalog-website/Picture/bulbasaur.png";
 const CHARMANDER_PIC_URL = "../Catalog-website/Picture/charmander.png";
 const SQUIRTLE_PIC_URL = "../Catalog-website/Picture/squirtle.png";
